@@ -1,0 +1,15 @@
+{
+    "name": "BattleSimulator",
+    "description": "BattleSimulator for an interview exercise.",
+    "authors": [{
+        "name": "Luke Paoloni",
+        "email": "lukepaoloni.me@gmail.com",
+        "homepage": "http://lukepaoloni.co.uk",
+        "role": "developer"
+    }],
+    "autoload": {
+        "psr-4": {
+            "BattleSimulator\\": "BattleSimulator/"
+        }
+    }
+}
