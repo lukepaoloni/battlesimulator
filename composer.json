@@ -11,5 +11,8 @@
         "psr-4": {
             "BattleSimulator\\": "BattleSimulator/"
         }
+    },
+    "require": {
+        "symfony/console": "^4.2"
     }
 }
