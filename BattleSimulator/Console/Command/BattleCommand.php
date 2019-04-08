@@ -7,6 +7,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Command\Command;
 use BattleSimulator\Combatant\AbstractCombatant;
+use BattleSimulator\Combatant\Grappler;
+use BattleSimulator\Combatant\Brute;
 
 class BattleCommand extends Command
 {
@@ -38,24 +40,25 @@ class BattleCommand extends Command
     {
         $this->input = $input;
         $this->output = $output;
-        $helper = $this->getHelper('question');
-        do {
-            $combatant1Question = new Question('Enter your name for combatant 1: ');
-            $combatants1Name = $helper->ask($input, $output, $combatant1Question);
-            $this->isValid = $this->isNameValid($combatants1Name);
+        // $helper = $this->getHelper('question');
+        // do {
+        //     $combatant1Question = new Question('Enter your name for combatant 1: ');
+        //     $combatants1Name = $helper->ask($input, $output, $combatant1Question);
+        //     $this->isValid = $this->isNameValid($combatants1Name);
             
-        } while (!$this->isValid);
+        // } while (!$this->isValid);
         
-        $this->isValid = false;
+        // $this->isValid = false;
 
-        do {
-            $combatant2Question = new Question('Enter your name for combatant 2: ');
-            $combatants2Name = $helper->ask($input, $output, $combatant2Question);
-            $this->isValid = $this->isNameValid($combatants2Name);
-        } while (!$this->isValid);
+        // do {
+        //     $combatant2Question = new Question('Enter your name for combatant 2: ');
+        //     $combatants2Name = $helper->ask($input, $output, $combatant2Question);
+        //     $this->isValid = $this->isNameValid($combatants2Name);
+        // } while (!$this->isValid);
         
-        $combatants = $this->selectCombatants($combatants1Name, $combatants2Name);
-        $this->battle($combatants);
+        // $combatants = $this->selectCombatants($combatants1Name, $combatants2Name);
+        // $this->battle($combatants);
+        $this->battle([new Brute('John'), new Brute('Jane')]);
     }
 
     private function isNameValid(string $name)
@@ -68,20 +71,20 @@ class BattleCommand extends Command
 
     private function battle(array $battlers)
     {
-        $this->output->writeln($battlers[0]->getName() . " is fighting as a " . $battlers[0]->getType().':');
+        $this->output->writeln("\n".$battlers[0]->getName() . " is fighting as a " . $battlers[0]->getType().':');
         $this->output->writeln($battlers[0]->getStats());
-        $this->output->writeln($battlers[1]->getName() . " is fighting as a " . $battlers[1]->getType().':');
-        $this->output->writeln($battlers[0]->getStats());
+        $this->output->writeln("\n".$battlers[1]->getName() . " is fighting as a " . $battlers[1]->getType().':');
+        $this->output->writeln($battlers[1]->getStats());
         $combatants = $this->sortAttackOrder($battlers[0], $battlers[1]);
         
         for ($i = 0; $i <= self::MAX_ROUNDS - 1; $i++) {
-            $this->output->writeln("Round ".($i+1));
+            $this->output->writeln("\n\nRound ".($i+1));
            
-            $this->output->writeln($combatants[0]->attack($combatants[1]));
+            $combatants[0]->attack($combatants[1]);
             if ($this->isWinner($combatants[0], $combatants[1])) {
                 break;
             }
-            $this->output->writeln($combatants[1]->attack($combatants[0]));
+            $combatants[1]->attack($combatants[0]);
             if ($this->isWinner($combatants[1], $combatants[0])) {
                 break;
             }
@@ -93,7 +96,7 @@ class BattleCommand extends Command
         }
     }
 
-    private function isWinner(AbstractCombatant $combatant1, AbstractCombatant $combatant2)
+    private function isWinner(AbstractCombatant $combatant1, AbstractCombatant $combatant2) : bool
     {
         if ($combatant1->getHealth() === 0) {
             $this->setWinner($combatant2);
@@ -105,7 +108,7 @@ class BattleCommand extends Command
         return false;
     }
 
-    private function getWinner()
+    private function getWinner() : AbstractCombatant
     {
         return $this->winner;
     }
@@ -115,7 +118,7 @@ class BattleCommand extends Command
         $this->winner = $winner;
     }
 
-    private function sortAttackOrder(AbstractCombatant $combatant1, AbstractCombatant $combatant2)
+    private function sortAttackOrder(AbstractCombatant $combatant1, AbstractCombatant $combatant2) : array
     {
         if ($combatant1->getSpeed() > $combatant2->getSpeed()) {
             return [$combatant1, $combatant2];
@@ -130,7 +133,7 @@ class BattleCommand extends Command
         }
     }
 
-    private function selectCombatants(string $combatants1Name, string $combatants2Name)
+    private function selectCombatants(string $combatants1Name, string $combatants2Name) : array
     {
        $battlers = [];
 
