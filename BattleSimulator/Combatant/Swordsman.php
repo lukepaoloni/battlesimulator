@@ -7,6 +7,7 @@ use BattleSimulator\Combatant\AbstractCombatant;
 class Swordsman extends AbstractCombatant
 {
     const TYPE = 'Swordsman';
+    const SPECIAL_ATTACK = 'Lucky Strike';
     protected $healthRange = [40, 60];
     protected $strengthRange = [60, 70];
     protected $defenseRange = [20, 30];
@@ -22,12 +23,14 @@ class Swordsman extends AbstractCombatant
 
     protected function specialAttack(AbstractCombatant $opponent)
     {
+        $this->luckyStrike = true;
         $strength = $this->getStrength() * 2;
         $damage = $strength - $opponent->getDefense();
 
         $opponent->reduceHealth($damage);
 
-        return "\n".$this->getName()."'s strength has increased to $strength for his next attack."
-                ."\n".$opponent->getName()."'s health is now ".$opponent->getHealth();
+        return "\n".$this->getName()."'s strength has increased to $strength for it's next attack."
+                ."\n".$this->getName()." hit ".$opponent->getName()." for $damage."
+                ."\n".$opponent->getName()."'s health is now ".$opponent->getHealth()."\n";
     }
 }

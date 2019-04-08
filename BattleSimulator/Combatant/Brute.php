@@ -7,6 +7,7 @@ use BattleSimulator\Combatant\AbstractCombatant;
 class Brute extends AbstractCombatant
 {
     const TYPE = 'Brute';
+    const SPECIAL_ATTACK = 'Stunning Blow';
     protected $healthRange = [90, 100];
     protected $strengthRange = [65, 75];
     protected $defenseRange = [40, 50];

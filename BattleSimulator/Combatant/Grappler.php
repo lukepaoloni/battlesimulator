@@ -7,6 +7,7 @@ use BattleSimulator\Combatant\AbstractCombatant;
 class Grappler extends AbstractCombatant
 {
     const TYPE = 'Grappler';
+    const SPECIAL_ATTACK = 'Counter Attack';
     protected $healthRange = [60, 100];
     protected $strengthRange = [75, 80];
     protected $defenseRange = [35, 40];

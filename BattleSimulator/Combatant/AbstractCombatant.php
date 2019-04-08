@@ -5,6 +5,7 @@ namespace BattleSimulator\Combatant;
 abstract class AbstractCombatant
 {
     const TYPE = null;
+    const SPECIAL_ATTACK = null;
     protected $chance;
     protected $name;
     protected $health;
@@ -43,7 +44,7 @@ abstract class AbstractCombatant
 
     public function reduceHealth(int $damage)
     {
-        if ($damage >= 0 && $damage <= 100) {
+        if ($damage >= 0) {
             $this->health -= $damage;
         }
         if ($this->health < 0) {
@@ -86,7 +87,8 @@ abstract class AbstractCombatant
         return "\nHealth: ".$this->getHealth()."\n".
                 "Strength: ".$this->getStrength()."\n".
                 "Defense: ".$this->getDefense()."\n".
-                "Luck: ".$this->getLuck();
+                "Luck: ".$this->getLuck()."\n".
+                "Special Attack: ".static::SPECIAL_ATTACK;
     }
 
     public function getType() : string
@@ -108,12 +110,13 @@ abstract class AbstractCombatant
 
         if ($this->stunningBlow) {
             $this->stunningBlow = false;
-            echo $this->getName() . ' you have been stunned by ' . $opponent->getName();
+            echo $this->getName() . ' you have been stunned by ' . $opponent->getName()."\n";
+            return;
         }
 
         if ($this->luckyStrike) {
             $this->luckyStrike = false;
-            echo $this->getName() . '\'s strength has been increased to ' . $this->getStrength();
+            return;
         }
         $this->basicAttack($opponent);
     }

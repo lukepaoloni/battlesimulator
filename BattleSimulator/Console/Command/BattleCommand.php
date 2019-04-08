@@ -8,7 +8,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Command\Command;
 use BattleSimulator\Combatant\AbstractCombatant;
 use BattleSimulator\Combatant\Grappler;
-use BattleSimulator\Combatant\Brute;
+use BattleSimulator\Combatant\Swordsman;
 
 class BattleCommand extends Command
 {
@@ -40,25 +40,24 @@ class BattleCommand extends Command
     {
         $this->input = $input;
         $this->output = $output;
-        // $helper = $this->getHelper('question');
-        // do {
-        //     $combatant1Question = new Question('Enter your name for combatant 1: ');
-        //     $combatants1Name = $helper->ask($input, $output, $combatant1Question);
-        //     $this->isValid = $this->isNameValid($combatants1Name);
+        $helper = $this->getHelper('question');
+        do {
+            $combatant1Question = new Question('Enter your name for combatant 1: ');
+            $combatants1Name = $helper->ask($input, $output, $combatant1Question);
+            $this->isValid = $this->isNameValid($combatants1Name);
             
-        // } while (!$this->isValid);
+        } while (!$this->isValid);
         
-        // $this->isValid = false;
+        $this->isValid = false;
 
-        // do {
-        //     $combatant2Question = new Question('Enter your name for combatant 2: ');
-        //     $combatants2Name = $helper->ask($input, $output, $combatant2Question);
-        //     $this->isValid = $this->isNameValid($combatants2Name);
-        // } while (!$this->isValid);
+        do {
+            $combatant2Question = new Question('Enter your name for combatant 2: ');
+            $combatants2Name = $helper->ask($input, $output, $combatant2Question);
+            $this->isValid = $this->isNameValid($combatants2Name);
+        } while (!$this->isValid);
         
-        // $combatants = $this->selectCombatants($combatants1Name, $combatants2Name);
-        // $this->battle($combatants);
-        $this->battle([new Brute('John'), new Brute('Jane')]);
+        $combatants = $this->selectCombatants($combatants1Name, $combatants2Name);
+        $this->battle($combatants);
     }
 
     private function isNameValid(string $name)
